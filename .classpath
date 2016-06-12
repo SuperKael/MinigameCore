@@ -3,6 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="D:/Users/Kael/Desktop/Spigot Server/Spigot/Spigot-API/target/spigot-api-1.9.4-R0.1-SNAPSHOT-shaded.jar"/>
-	<classpathentry kind="lib" path="D:/Users/Kael/Desktop/Spigot Plugins/MinigameCore/Old Versions/MinigameCore-v1.0.jar"/>
+	<classpathentry kind="lib" path="D:/Users/Kael/Desktop/Spigot Plugins/Versions/MinigameCore/MinigameCore-v1.1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

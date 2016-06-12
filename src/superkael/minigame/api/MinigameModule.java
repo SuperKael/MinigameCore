@@ -1,27 +1,25 @@
 package superkael.minigame.api;
 
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import superkael.minigame.core.IMinigame;
 
-public abstract class MinigamePlugin extends JavaPlugin implements IMinigame{
-	
-	public static MinigamePlugin instance;
+public abstract class MinigameModule implements IMinigame{
+
+	public static MinigameModule instance;
 	
 	public abstract String getID();
+	public abstract String getGameName();
 	
-	public MinigamePlugin(){
+	public MinigameModule(){
 		instance = this;
 	}
 	
-	@Override
-	public final void onEnable(){
+	public final void loadGame(){
 		onGameLoad();
 	}
 	
-	@Override
-	public final void onDisable(){
+	public final void unloadGame(){
 		onGameUnload();
 	}
 	
@@ -32,10 +30,6 @@ public abstract class MinigamePlugin extends JavaPlugin implements IMinigame{
 	
 	public String[] dependencies(){
 		return new String[]{};
-	}
-	
-	public String getGameName(){
-		return getName();
 	}
 	
 	public void onGameLoad(){}

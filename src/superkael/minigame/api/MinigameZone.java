@@ -2,15 +2,16 @@ package superkael.minigame.api;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Hashtable;
+import java.util.List;
+import java.util.Map;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
-
-import com.google.common.collect.ImmutableList;
 
 import superkael.minigame.core.*;
 
@@ -52,23 +53,24 @@ public class MinigameZone {
 	}
 	
 	public boolean addGame(String gameID){
-		if(minigames.contains(gameID)){
+		if(minigames.contains(gameID.toLowerCase())){
 			return false;
 		}else{
-			minigames.add(gameID);
+			minigames.add(gameID.toLowerCase());
 			String[] dependencies = MinigameHandler.getGameByID(gameID).dependencies();
 			for(String dependency : dependencies){
-				minigames.add(dependency);
+				minigames.add(dependency.toLowerCase());
 			}
-			MinigameCore.i.saveConfigFile();
+			Collections.sort(minigames);
+			MinigameCore.instance.saveConfigFile();
 			return true;
 		}
 	}
 	
 	public boolean delGame(String gameID){
-		if(minigames.contains(gameID)){
-			minigames.remove(gameID);
-			MinigameCore.i.saveConfigFile();
+		if(minigames.contains(gameID.toLowerCase())){
+			minigames.remove(gameID.toLowerCase());
+			MinigameCore.instance.saveConfigFile();
 			return true;
 		}else{
 			return false;
@@ -76,15 +78,16 @@ public class MinigameZone {
 	}
 	
 	public boolean addSetting(String settingName, String settingValue){
-		settings.put(settingName, settingValue);
-		MinigameCore.i.saveConfigFile();
+		settings.put(settingName.toLowerCase(), settingValue);
+		Arrays.sort(settings.keySet().toArray());
+		MinigameCore.instance.saveConfigFile();
 		return true;
 	}
 	
 	public boolean delSetting(String settingName){
-		if(settings.containsKey(settingName)){
-			settings.remove(settingName);
-			MinigameCore.i.saveConfigFile();
+		if(settings.containsKey(settingName.toLowerCase())){
+			settings.remove(settingName.toLowerCase());
+			MinigameCore.instance.saveConfigFile();
 			return true;
 		}else{
 			return false;
@@ -120,29 +123,41 @@ public class MinigameZone {
 		if(!global){
 			this.name = name;
 		}
-		MinigameCore.i.saveConfigFile();
+		MinigameCore.instance.saveConfigFile();
 	}
 	
-	public ImmutableList<String> getGames(){
-		return ImmutableList.copyOf(minigames);
+	public List<String> getGames(){
+		return Collections.unmodifiableList(minigames);
 	}
 	
-	public ImmutableList<String> getSettings(){
+	public Map<String, String> getSettings(){
+		return Collections.unmodifiableMap(settings);
+	}
+	
+	public List<String> getSettingsAsStrings(){
 		ArrayList<String> settingStrings = new ArrayList<String>();
 		for(int i = 0;i < settings.size();i++){
 			settingStrings.add(settings.keySet().toArray()[i] + ": " + settings.values().toArray()[i]);
 		}
-		return ImmutableList.copyOf(settingStrings);
+		return settingStrings;
 	}
 	
-	public boolean usesGame(String game){
+	public String getSetting(String setting){
+		return settings.get(setting);
+	}
+	
+	public boolean hasGame(String game){
 		return minigames.contains(game.toLowerCase());
+	}
+	
+	public boolean hasSetting(String setting){
+		return settings.containsKey(setting.toLowerCase());
 	}
 	
 	public void display(Player player, int time){
 		if(global)return;
 		display(player);
-		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(MinigameCore.i, new Runnable(){
+		Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(MinigameCore.instance, new Runnable(){
 			public void run(){
 				undisplay(player);
 			}
@@ -194,8 +209,9 @@ public class MinigameZone {
  			}
  			if(playersEntered.size() > 0){
  				for(String game : minigames){
- 					MinigamePlugin plugin = MinigameHandler.getGameByID(game);
+ 					IMinigame plugin = MinigameHandler.getGameByID(game);
  					for(Player player : playersEntered){
+ 						plugin.onPlayerEnterGame(this, player);
  						if(global){
  							plugin.onPlayerEnterWorld(this, player);
  						}else{
@@ -206,8 +222,9 @@ public class MinigameZone {
  			}
  			if(playersExited.size() > 0){
  				for(String game : minigames){
- 					MinigamePlugin plugin = MinigameHandler.getGameByID(game);
+ 					IMinigame plugin = MinigameHandler.getGameByID(game);
  					for(Player player : playersExited){
+ 						plugin.onPlayerExitGame(this, player);
  						if(global){
  							plugin.onPlayerExitWorld(this, player);
  						}else{
@@ -226,6 +243,10 @@ public class MinigameZone {
 		if((y1 >= loc.getY()) || (loc.getY() >= y2+1))return false;
 		if((z1 >= loc.getZ()) || (loc.getZ() >= z2+1))return false;
 		return true;
+	}
+	
+	public boolean containsPlayer(Player player){
+		return players.contains(player);
 	}
 	
 	public Player[] getContainedPlayers(){
