@@ -95,7 +95,7 @@ public class MinigameUtils {
 		string = string.replaceAll("&m", "" + ChatColor.STRIKETHROUGH + "");
 		string = string.replaceAll("&k", "" + ChatColor.MAGIC + "");
 		string = string.replaceAll("&r", "" + ChatColor.RESET + "");
-		string = string.replaceAll("&\\", "" + '\n' + "");
+		string = string.replaceAll("&\\\\", "" + '\n' + "");
 		return string;
 	}
 }
