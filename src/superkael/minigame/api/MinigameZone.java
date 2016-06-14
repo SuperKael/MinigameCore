@@ -143,7 +143,7 @@ public class MinigameZone {
 	}
 	
 	public String getSetting(String setting){
-		return settings.get(setting);
+		return settings.get(setting.toLowerCase());
 	}
 	
 	public boolean hasGame(String game){

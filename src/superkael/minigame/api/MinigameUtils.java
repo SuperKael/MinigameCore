@@ -71,7 +71,8 @@ public class MinigameUtils {
 		}
 	}
 	
-	public static String parseAsColoredString(String string){
+	public static String parseAsFormatedString(String string){
+		if(string == null)return null;
 		string = string.replaceAll("&0", "" + ChatColor.BLACK + "");
 		string = string.replaceAll("&1", "" + ChatColor.DARK_BLUE + "");
 		string = string.replaceAll("&2", "" + ChatColor.DARK_GREEN + "");
@@ -94,6 +95,7 @@ public class MinigameUtils {
 		string = string.replaceAll("&m", "" + ChatColor.STRIKETHROUGH + "");
 		string = string.replaceAll("&k", "" + ChatColor.MAGIC + "");
 		string = string.replaceAll("&r", "" + ChatColor.RESET + "");
+		string = string.replaceAll("&\\", "" + '\n' + "");
 		return string;
 	}
 }
