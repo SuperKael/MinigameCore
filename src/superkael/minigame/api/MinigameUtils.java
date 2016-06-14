@@ -71,7 +71,7 @@ public class MinigameUtils {
 		}
 	}
 	
-	public String parseAsColoredString(String string){
+	public static String parseAsColoredString(String string){
 		string = string.replaceAll("&0", "" + ChatColor.BLACK + "");
 		string = string.replaceAll("&1", "" + ChatColor.DARK_BLUE + "");
 		string = string.replaceAll("&2", "" + ChatColor.DARK_GREEN + "");
