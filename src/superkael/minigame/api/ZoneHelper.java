@@ -1,5 +1,8 @@
 package superkael.minigame.api;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
@@ -133,5 +136,19 @@ public class ZoneHelper {
 
 	public static int getZoneCount(){
 		return ZoneHandler.getZoneCount();
-	}	
+	}
+	
+	public static Player[] getPlayersInGame(String game){
+		MinigameZone[] zones = getZonesForGame(game);
+		ArrayList<Player> players = new ArrayList<Player>();
+		for(MinigameZone zone : zones){
+			Player[] playersInZone = zone.getContainedPlayers();
+			for(Player player : playersInZone){
+				if(!players.contains(player)){
+					players.add(player);
+				}
+			}
+		}
+		return Arrays.copyOf(players.toArray(), players.size(), Player[].class);
+	}
 }

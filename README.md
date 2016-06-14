@@ -1,2 +1,2 @@
-# minigame-core
-Minigame Core Bukkit Plugin
+#MinigameCore-api
+The public API for the minigame core plugin.
