@@ -139,7 +139,7 @@ public class ZoneHelper {
 	}
 	
 	public static Player[] getPlayersInGame(String game){
-		MinigameZone[] zones = getZonesForGame(game);
+		MinigameZone[] zones = getAllZonesForGame(game);
 		ArrayList<Player> players = new ArrayList<Player>();
 		for(MinigameZone zone : zones){
 			Player[] playersInZone = zone.getContainedPlayers();
@@ -150,5 +150,18 @@ public class ZoneHelper {
 			}
 		}
 		return Arrays.copyOf(players.toArray(), players.size(), Player[].class);
+	}
+	
+	public static MinigameZone[] getAllZonesForGame(String game){
+		MinigameZone[] zones = getZonesForGame(game);
+		MinigameZone[] worldZones = getWorldZonesForGame(game);
+		MinigameZone[] allZones = new MinigameZone[zones.length + worldZones.length];
+		for(int i = 0;i < zones.length;i++){
+			allZones[i] = zones[i];
+		}
+		for(int i = 0;i < worldZones.length;i++){
+			allZones[i + zones.length] = worldZones[i];
+		}
+		return allZones;
 	}
 }

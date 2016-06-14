@@ -62,7 +62,7 @@ public class MinigameZone {
 				minigames.add(dependency.toLowerCase());
 			}
 			Collections.sort(minigames);
-			MinigameCore.instance.saveConfigFile();
+			MinigameCore.instance.saveZoneConfigFile();
 			return true;
 		}
 	}
@@ -70,7 +70,7 @@ public class MinigameZone {
 	public boolean delGame(String gameID){
 		if(minigames.contains(gameID.toLowerCase())){
 			minigames.remove(gameID.toLowerCase());
-			MinigameCore.instance.saveConfigFile();
+			MinigameCore.instance.saveZoneConfigFile();
 			return true;
 		}else{
 			return false;
@@ -80,14 +80,14 @@ public class MinigameZone {
 	public boolean addSetting(String settingName, String settingValue){
 		settings.put(settingName.toLowerCase(), settingValue);
 		Arrays.sort(settings.keySet().toArray());
-		MinigameCore.instance.saveConfigFile();
+		MinigameCore.instance.saveZoneConfigFile();
 		return true;
 	}
 	
 	public boolean delSetting(String settingName){
 		if(settings.containsKey(settingName.toLowerCase())){
 			settings.remove(settingName.toLowerCase());
-			MinigameCore.instance.saveConfigFile();
+			MinigameCore.instance.saveZoneConfigFile();
 			return true;
 		}else{
 			return false;
@@ -123,7 +123,7 @@ public class MinigameZone {
 		if(!global){
 			this.name = name;
 		}
-		MinigameCore.instance.saveConfigFile();
+		MinigameCore.instance.saveZoneConfigFile();
 	}
 	
 	public List<String> getGames(){

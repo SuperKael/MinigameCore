@@ -32,6 +32,22 @@ public abstract class MinigameModule implements IMinigame{
 		return new String[]{};
 	}
 	
+	public Player[] getPlayers(){
+		return ZoneHelper.getPlayersInGame(getID());
+	}
+	
+	public MinigameZone[] getZones(){
+		return ZoneHelper.getZonesForGame(getID());
+	}
+	
+	public MinigameZone[] getWorldZones(){
+		return ZoneHelper.getWorldZonesForGame(getID());
+	}
+	
+	public MinigameZone[] getAllZones(){
+		return ZoneHelper.getAllZonesForGame(getID());
+	}
+	
 	public void onGameLoad(){}
 	public void onGameUnload(){}
 	public void onTick(){}
