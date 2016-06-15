@@ -1,6 +1,5 @@
 package superkael.minigame.api;
 
-import superkael.minigame.core.IMinigame;
 import superkael.minigame.core.MinigameHandler;
 
 public class PluginRegistry {

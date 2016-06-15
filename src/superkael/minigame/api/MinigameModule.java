@@ -2,8 +2,6 @@ package superkael.minigame.api;
 
 import org.bukkit.entity.Player;
 
-import superkael.minigame.core.IMinigame;
-
 public abstract class MinigameModule implements IMinigame{
 
 	public static MinigameModule instance;

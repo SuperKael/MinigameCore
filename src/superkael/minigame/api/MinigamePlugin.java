@@ -3,8 +3,6 @@ package superkael.minigame.api;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import superkael.minigame.core.IMinigame;
-
 public abstract class MinigamePlugin extends JavaPlugin implements IMinigame{
 	
 	public static MinigamePlugin instance;
