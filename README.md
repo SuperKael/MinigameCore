@@ -1,2 +1,2 @@
-#MinigameCore-api
-The public API for the minigame core plugin.
+#MinigameCore
+The source code for the "Minigame Core" plugin.
