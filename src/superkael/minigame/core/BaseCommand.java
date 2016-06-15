@@ -377,29 +377,75 @@ public class BaseCommand implements CommandExecutor{
 								if(args.length > 2){
 									switch(args[2].toLowerCase()){
 										case "local":
-											for(MinigameZone zone : ZoneHandler.getLocalZones(player.getLocation())){
-												zone.display(player);
+											if(args.length > 3){
+												for(MinigameZone zone : ZoneHandler.getLocalZones(player.getLocation())){
+													if(Bukkit.getPlayer(args[3]) != null){
+														zone.display(Bukkit.getPlayer(args[3]));
+														sender.sendMessage(new String[]{
+															ChatColor.GREEN + "Displaying local zones to player " + args[3]
+														});
+													}else{
+														sender.sendMessage(new String[]{
+															ChatColor.RED + "Could not find player \"" + args[3] + "\""
+														});
+													}
+												}
+											}else{
+												for(MinigameZone zone : ZoneHandler.getLocalZones(player.getLocation())){
+													zone.display(player);
+												}
+												sender.sendMessage(new String[]{
+													ChatColor.GREEN + "Displaying local zones"
+												});
 											}
-											sender.sendMessage(new String[]{
-												ChatColor.GREEN + "Displaying local zones"
-											});
 										break;
 										case "global":
-											ZoneHandler.displayAllZones(player);
-											sender.sendMessage(new String[]{
-												ChatColor.GREEN + "Displaying all zones"
-											});
-										break;
-										case "name":
 											if(args.length > 3){
-												if(ZoneHandler.displayZone(player, args[3])){
+												if(Bukkit.getPlayer(args[3]) != null){
+													ZoneHandler.displayAllZones(Bukkit.getPlayer(args[3]));
 													sender.sendMessage(new String[]{
-														ChatColor.GREEN + "Displaying zone \"" + args[3] + "\""
+														ChatColor.GREEN + "Displaying all zones to player " + args[3]
 													});
 												}else{
 													sender.sendMessage(new String[]{
-														ChatColor.RED + "There is no zone by the name \"" + args[3] + "\""
+														ChatColor.RED + "Could not find player \"" + args[3] + "\""
 													});
+												}
+											}else{
+												ZoneHandler.displayAllZones(player);
+												sender.sendMessage(new String[]{
+														ChatColor.GREEN + "Displaying all zones"
+												});
+											}
+										break;
+										case "name":
+											if(args.length > 3){
+												if(args.length > 4){
+													if(Bukkit.getPlayer(args[4]) != null){
+														if(ZoneHandler.displayZone(Bukkit.getPlayer(args[4]), args[3])){
+															sender.sendMessage(new String[]{
+																	ChatColor.GREEN + "Displaying zone \"" + args[3] + "\" to player \"" + args[4] + "\""
+															});
+														}else{
+															sender.sendMessage(new String[]{
+																	ChatColor.RED + "There is no zone by the name \"" + args[3] + "\""
+															});
+														}
+													}else{
+														sender.sendMessage(new String[]{
+															ChatColor.RED + "Could not find player \"" + args[4] + "\""
+														});
+													}
+												}else{
+													if(ZoneHandler.displayZone(player, args[3])){
+														sender.sendMessage(new String[]{
+																ChatColor.GREEN + "Displaying zone \"" + args[3] + "\""
+														});
+													}else{
+														sender.sendMessage(new String[]{
+																ChatColor.RED + "There is no zone by the name \"" + args[3] + "\""
+														});
+													}
 												}
 											}else{
 												sender.sendMessage(new String[]{
