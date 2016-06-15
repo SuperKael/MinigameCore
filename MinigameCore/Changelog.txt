@@ -1,0 +1,87 @@
+MinigameCore Changelog:
+
+#Version 1.2.1:
+
+	*Fixed a few minor bugs.
+	*Added proper permission references in the plugin.yml, so it won't show in /help when it shouldn't.
+
+#Version 1.2:
+
+	+Added some new API convenience methods.
+	+Added another game module, Automatic Messages, which allows automatic sending of configurable messages.
+	+Added a config file (while, there already was one, but it didn't do anything)
+	+Added the ability to enable/disable game modules with the aforementioned config file.
+	*Many of the commands are no longer restricted to being run by players only.
+
+#Version 1.1.1:
+
+	*Fixed some improper chat messages associated with the /minigame command.
+	*Various bugfixes related to the inventory control system.
+
+#Version 1.1:
+
+	+Added utility module InventoryControl, which makes control over a player's inventory quite easy.
+	+Greatly improved API and added many new events.
+	*Fixed a major oversight that prevented minigames from accessing the settings of a zone. whoops.
+	*Fixed a minor bug with zone destruction.
+
+#Version 1.0.1:
+
+	*Small patch to prevent creation and renaming of zones with a name that is already in use.
+
+#Version 1.0:
+
+	+Version 1 of MinigameCore is released.
+
+#----------------------------------------------------------------------------------------------------#
+#                                                                                                    #
+#                                           Version 1                                                #
+#                                                                                                    #
+#----------------------------------------------------------------------------------------------------#
+
+#Version 0.8:
+
+	+Zones can now have names.
+	+Minigame plugins can how use dependencies.
+
+#Version 0.7:
+
+	+The games and settings associated with a game zone or world can now be displayed.
+
+#Version 0.6:
+
+	+Zone settings can now be modified by command and viewed/modified via API.
+
+#Version 0.5:
+
+	+Now saves zone data, so everything is not lost on reload/restart.
+	+Added zone settings.
+
+#Version 0.4:
+
+	+Allows removal of zones
+
+#Version 0.3:
+
+	+Finalize API to the point of usability, allows creation of minigame addons.
+	+Added addgame and delgame arguments for /minigame, allowing entry of minigames into zones.
+
+#Version 0.2:
+
+	+Added /minigame command, currently only creates and display zones.
+
+#Version 0.1:
+
+	+Registers for minigame addons and zones created.
+	+Basic API Started.
+
+#Version 0.0:
+
+	+The plugin was born.
+
+
+#----------------------------------------------------------------------------------------------------#
+#                                                                                                    #
+#                                            Version 0                                               #
+#                                                                                                    #
+#----------------------------------------------------------------------------------------------------#
