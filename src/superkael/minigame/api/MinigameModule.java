@@ -2,6 +2,8 @@ package superkael.minigame.api;
 
 import org.bukkit.entity.Player;
 
+import superkael.minigame.api.interfaces.IStateBasedMinigame;
+
 public abstract class MinigameModule implements IMinigame{
 
 	public static MinigameModule instance;
@@ -14,11 +16,23 @@ public abstract class MinigameModule implements IMinigame{
 	}
 	
 	public final void loadGame(){
+		if(this instanceof IStateBasedMinigame){
+			((IStateBasedMinigame)this).setState(GameState.LOADING);
+		}
 		onGameLoad();
+		if(this instanceof IStateBasedMinigame){
+			((IStateBasedMinigame)this).setState(GameState.AVAILABLE);
+		}
 	}
 	
 	public final void unloadGame(){
+		if(this instanceof IStateBasedMinigame){
+			((IStateBasedMinigame)this).setState(GameState.UNLOADING);
+		}
 		onGameUnload();
+		if(this instanceof IStateBasedMinigame){
+			((IStateBasedMinigame)this).setState(GameState.DISABLED);
+		}
 	}
 	
 	@Override

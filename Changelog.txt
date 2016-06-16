@@ -1,5 +1,9 @@
 MinigameCore Changelog:
 
+#Version 1.2.2:
+
+	+Added some minigame interfaces to help with minigame typing and state-based minigame.
+
 #Version 1.2.1:
 
 	*Fixed a few minor bugs.

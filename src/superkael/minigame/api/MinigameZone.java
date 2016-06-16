@@ -13,6 +13,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
+import superkael.minigame.api.interfaces.IStateBasedMinigame;
 import superkael.minigame.core.*;
 
 public class MinigameZone {
@@ -210,6 +211,11 @@ public class MinigameZone {
  			if(playersEntered.size() > 0){
  				for(String game : minigames){
  					IMinigame plugin = MinigameHandler.getGameByID(game);
+ 					if(plugin instanceof IStateBasedMinigame){
+ 						if(!((IStateBasedMinigame)plugin).getState().isReady()){
+ 							continue;
+ 						}
+ 					}
  					for(Player player : playersEntered){
  						plugin.onPlayerEnterGame(this, player);
  						if(global){
@@ -223,6 +229,11 @@ public class MinigameZone {
  			if(playersExited.size() > 0){
  				for(String game : minigames){
  					IMinigame plugin = MinigameHandler.getGameByID(game);
+ 					if(plugin instanceof IStateBasedMinigame){
+ 						if(!((IStateBasedMinigame)plugin).getState().isReady()){
+ 							continue;
+ 						}
+ 					}
  					for(Player player : playersExited){
  						plugin.onPlayerExitGame(this, player);
  						if(global){

@@ -3,6 +3,8 @@ package superkael.minigame.api;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import superkael.minigame.api.interfaces.IStateBasedMinigame;
+
 public abstract class MinigamePlugin extends JavaPlugin implements IMinigame{
 	
 	public static MinigamePlugin instance;
@@ -11,16 +13,31 @@ public abstract class MinigamePlugin extends JavaPlugin implements IMinigame{
 	
 	public MinigamePlugin(){
 		instance = this;
+		if(this instanceof IStateBasedMinigame){
+			((IStateBasedMinigame)this).setState(GameState.DISABLED);
+		}
 	}
 	
 	@Override
 	public final void onEnable(){
+		if(this instanceof IStateBasedMinigame){
+			((IStateBasedMinigame)this).setState(GameState.LOADING);
+		}
 		onGameLoad();
+		if(this instanceof IStateBasedMinigame){
+			((IStateBasedMinigame)this).setState(GameState.AVAILABLE);
+		}
 	}
 	
 	@Override
 	public final void onDisable(){
+		if(this instanceof IStateBasedMinigame){
+			((IStateBasedMinigame)this).setState(GameState.UNLOADING);
+		}
 		onGameUnload();
+		if(this instanceof IStateBasedMinigame){
+			((IStateBasedMinigame)this).setState(GameState.DISABLED);
+		}
 	}
 	
 	@Override

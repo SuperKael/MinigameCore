@@ -1,17 +1,16 @@
-package superkael.minigame.api;
+package superkael.minigame.api.interfaces;
 
-import superkael.minigame.api.interfaces.IStateBasedMinigame;
+import java.util.Hashtable;
+
+import superkael.minigame.api.*;
 import superkael.minigame.core.MinigameHandler;
 
-public class PluginRegistry {
+public interface IStateBasedMinigame {
 	
-	public static boolean registerPlugin(MinigamePlugin plugin, boolean silent){
-		return MinigameHandler.registerGame(plugin, silent);
-	}
+	public GameState getState();
+	public void setState(GameState state);
 	
-	public static IMinigame getPlugin(String ID){
-		return MinigameHandler.getGameByID(ID);
-	}
+	public static Hashtable<GameState, Runnable> stateEvents = new Hashtable<GameState, Runnable>();
 	
 	public static Runnable registerStateEvent(IStateBasedMinigame game, GameState state, Runnable eventHandler){
 		return MinigameHandler.registerStateEvent(game, state, eventHandler);

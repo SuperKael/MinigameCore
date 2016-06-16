@@ -4,10 +4,12 @@ import java.util.Hashtable;
 import org.bukkit.entity.Player;
 
 import superkael.minigame.api.*;
+import superkael.minigame.api.interfaces.IStateBasedMinigame;
 
 public class MinigameHandler {
 	
 	private static Hashtable<String, IMinigame> minigames = new Hashtable<String, IMinigame>();
+	private static Hashtable<IStateBasedMinigame, Hashtable<GameState, Runnable>> stateEvents = new Hashtable<IStateBasedMinigame, Hashtable<GameState, Runnable>>();
 	
 	public static boolean registerGame(IMinigame plugin, boolean silent){
 		if(plugin instanceof MinigamePlugin){
@@ -112,9 +114,56 @@ public class MinigameHandler {
 		return minigames.containsKey(ID.toLowerCase());
 	}
 	
+	public static Runnable registerStateEvent(IStateBasedMinigame game, GameState state, Runnable eventHandler){
+		Hashtable<GameState,Runnable> gameTable;
+		if(stateEvents.contains(game)){
+			gameTable = stateEvents.get(game);
+		}else{
+			gameTable = new Hashtable<GameState,Runnable>();
+		}
+		Runnable runnable = gameTable.put(state, eventHandler);
+		stateEvents.put(game, gameTable);
+		return runnable;
+	}
+	
+	public static boolean hasStateEvent(IStateBasedMinigame game, GameState state){
+		if(stateEvents.contains(game)){
+			return stateEvents.get(game).contains(state);
+		}else{
+			return false;
+		}
+	}
+	
+	public static Runnable getStateEventHandler(IStateBasedMinigame game, GameState state){
+		if(stateEvents.contains(game)){
+			return stateEvents.get(game).get(state);
+		}else{
+			return null;
+		}
+	}
+	
+	public static boolean runStateEvent(IStateBasedMinigame game){
+		Runnable eventHandler = stateEvents.get(game).get(game.getState());
+		if(eventHandler != null){
+			eventHandler.run();
+			return true;
+		}else{
+			return false;
+		}
+	}
+	
 	public static void onTick(){
 		for(IMinigame plugin : minigames.values()){
-			plugin.onTick();
+			if(plugin instanceof IStateBasedMinigame){
+				if(!((IStateBasedMinigame)plugin).getState().isReady()){
+					continue;
+				}else{
+					plugin.onTick();
+					runStateEvent((IStateBasedMinigame)plugin);
+				}
+			}else{
+				plugin.onTick();
+			}
 			MinigameZone[] zones = ZoneHandler.getZonesForGame(plugin.getID());
 			boolean hasTickedActive = false;
 			if(zones.length > 0){

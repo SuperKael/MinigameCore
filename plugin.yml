@@ -1,6 +1,6 @@
 name: MinigameCore
 main: superkael.minigame.core.MinigameCore
-version: 1.2.1
+version: 1.2.2
 commands:
   minigame:
     description: Base command for the Minigame Plugin.
