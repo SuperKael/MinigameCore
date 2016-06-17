@@ -1,8 +1,14 @@
 MinigameCore Changelog:
 
+#Version 1.2.3:
+
+	+Added a new catagory to the command, 'games' which can be used to manage installed minigames.
+	*Renamed the command catagory 'zone' to 'zones'
+	+Added more API utility features, as well as 'Setting Types'.
+
 #Version 1.2.2:
 
-	+Added some minigame interfaces to help with minigame typing and state-based minigame.
+	+Added some minigame interfaces to help with minigame typing and state-based minigames.
 
 #Version 1.2.1:
 

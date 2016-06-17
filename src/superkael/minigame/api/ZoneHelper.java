@@ -130,8 +130,8 @@ public class ZoneHelper {
 		return ZoneHandler.getLocalZones(loc);
 	}
 
-	public static MinigameZone getWorldZone(String world){
-		return ZoneHandler.getWorldZone(world);
+	public static MinigameZone getWorldZone(String world, boolean createIfNotPresent){
+		return ZoneHandler.getWorldZone(world, createIfNotPresent);
 	}
 
 	public static int getZoneCount(){

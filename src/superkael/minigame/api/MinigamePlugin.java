@@ -12,6 +12,7 @@ public abstract class MinigamePlugin extends JavaPlugin implements IMinigame{
 	public abstract String getID();
 	
 	public MinigamePlugin(){
+		super();
 		instance = this;
 		if(this instanceof IStateBasedMinigame){
 			((IStateBasedMinigame)this).setState(GameState.DISABLED);

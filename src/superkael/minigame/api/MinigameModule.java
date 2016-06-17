@@ -12,7 +12,11 @@ public abstract class MinigameModule implements IMinigame{
 	public abstract String getGameName();
 	
 	public MinigameModule(){
+		super();
 		instance = this;
+		if(this instanceof IStateBasedMinigame){
+			((IStateBasedMinigame)this).setState(GameState.DISABLED);
+		}
 	}
 	
 	public final void loadGame(){

@@ -1,36 +1,37 @@
 package superkael.minigame.api;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 public class MinigameUtils {
 	
-	public static boolean parseAsBoolean(String string){
+	public static Boolean parseAsBoolean(String string){
 		return Boolean.parseBoolean(string);
 	}
 	
-	public static byte parseAsByte(String string){
+	public static Byte parseAsByte(String string){
 		return Byte.parseByte(string);
 	}
 	
-	public static int parseAsInt(String string){
-		return Integer.parseInt(string);
-	}
-	
-	public static short parseAsShort(String string){
+	public static Short parseAsShort(String string){
 		return Short.parseShort(string);
 	}
 	
-	public static long parseAsLong(String string){
+	public static Integer parseAsInt(String string){
+		return Integer.parseInt(string);
+	}
+	
+	public static Long parseAsLong(String string){
 		return Long.parseLong(string);
 	}
 	
-	public static float parseAsFloat(String string){
+	public static Float parseAsFloat(String string){
 		return Float.parseFloat(string);
 	}
 	
-	public static double parseAsDouble(String string){
+	public static Double parseAsDouble(String string){
 		return Double.parseDouble(string);
 	}
 	
@@ -38,26 +39,39 @@ public class MinigameUtils {
 		return Material.getMaterial(string.toUpperCase());
 	}
 	
+	@SuppressWarnings("deprecation")
 	public static ItemStack parseAsItemStack(String string){
 		String[] splitAsterisk = string.split("\\*");
 		String[] splitColon;
+		String[] splitSpace;
 		int stackSize;
 		short stackMeta;
 		Material stackItem;
+		String stackNBT;
 		if(splitAsterisk.length == 1){
-			stackSize = 1;
 			splitColon = splitAsterisk[0].split(":");
+			stackSize = 1;
 		}else if(splitAsterisk.length == 2){
-			stackSize = parseAsInt(splitAsterisk[0]);
 			splitColon = splitAsterisk[1].split(":");
+			stackSize = parseAsInt(splitAsterisk[0]);
 		}else{
 			System.out.println("Warning: Attempted to parse itemstack \"" + string + "\", but it is not a valid itemstack!");
 			return null;
 		}
 		if(splitColon.length == 1){
+			splitSpace = splitColon[0].split(" ",2);
 			stackMeta = 0;
 		}else if(splitColon.length == 2){
-			stackMeta = parseAsShort(splitColon[1]);
+			splitSpace = splitColon[1].split(" ",2);
+			stackMeta = parseAsShort(splitSpace[0]);
+		}else{
+			System.out.println("Warning: Attempted to parse itemstack \"" + string + "\", but it is not a valid itemstack!");
+			return null;
+		}
+		if(splitSpace.length == 1){
+			stackNBT = null;
+		}else if(splitSpace.length == 2){
+			stackNBT = splitSpace[1];
 		}else{
 			System.out.println("Warning: Attempted to parse itemstack \"" + string + "\", but it is not a valid itemstack!");
 			return null;
@@ -65,13 +79,14 @@ public class MinigameUtils {
 		stackItem = parseAsItem(splitColon[0]);
 		try{
 			ItemStack stack = new ItemStack(stackItem, stackSize, stackMeta);
+			stack = Bukkit.getUnsafe().modifyItemStack(stack, stackNBT);
 			return stack;
 		}catch(Exception e){
 			return null;
 		}
 	}
 	
-	public static String parseAsFormatedString(String string){
+	public static String parseAsFormattedString(String string){
 		if(string == null)return null;
 		/*
 		string = string.replaceAll("&0", "" + ChatColor.BLACK + "");
@@ -100,5 +115,37 @@ public class MinigameUtils {
 		return string;
 		*/
 		return ChatColor.translateAlternateColorCodes('&', string);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public static <T extends Object> T parseAsSettingType(String string, SettingType type){
+		switch(type){
+			case STRING:
+				return (T)string;
+			case FSTRING:
+				return (T)parseAsFormattedString(string);
+			case BOOLEAN:
+				return (T)parseAsBoolean(string);
+			case BYTE:
+				return (T)parseAsByte(string);
+			case SHORT:
+				return (T)parseAsShort(string);
+			case INT:
+				return (T)parseAsInt(string);
+			case LONG:
+				return (T)parseAsLong(string);
+			case FLOAT:
+				return (T)parseAsFloat(string);
+			case DOUBLE:
+				return (T)parseAsDouble(string);
+			case ITEM:
+				return (T)parseAsItem(string);
+			case ITEMSTACK:
+				return (T)parseAsItemStack(string);
+			case OTHER:
+				return (T)string;
+			default:
+				return null;
+		}
 	}
 }
